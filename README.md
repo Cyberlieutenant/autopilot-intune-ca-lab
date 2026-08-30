@@ -22,6 +22,16 @@ in a Microsoft 365 Developer tenant.
 - Enabled Hyper-V on Windows 11 Pro host
 - Created external virtual switch for VM networking
 - Downloading Windows 11 Enterprise (eval) ISO for the Autopilot lab VM
+- ### August 30, 2026 — VM Creation & Troubleshooting
+- Hit Event ID 15266 "Failed to create the virtual hard disk" when creating the VM using
+  the default ProgramData storage path
+- Diagnosed the issue using Event Viewer (Microsoft-Windows-Hyper-V-VMMS/Admin log) to
+  confirm the exact error rather than guessing
+- Ruled out disk space (237GB free) and Windows Defender Controlled Folder Access as causes
+- Resolved by creating the VM in a custom folder (C:\HyperV-VMs) instead of the default
+  system location — pointed to a likely permissions restriction on the default path
+- VM created successfully with Generation 2, vTPM enabled, connected to AutopilotSwitch
+- Windows 11 Enterprise (eval) installation in progress inside the VM
 
 ## Status
 🚧 In progress
