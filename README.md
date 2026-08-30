@@ -18,6 +18,10 @@ in a Microsoft 365 Developer tenant.
 - Confirmed Windows 11 Pro edition, enabled Hyper-V via Windows Features
 - Created GitHub repo to document the build as I go
 - Next: create Generation 2 VM with virtual TPM for Autopilot testing
+- ### August 30, 2026 — VM Setup
+- Enabled Hyper-V on Windows 11 Pro host
+- Created external virtual switch for VM networking
+- Downloading Windows 11 Enterprise (eval) ISO for the Autopilot lab VM
 
 ## Status
 🚧 In progress
