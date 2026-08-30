@@ -32,6 +32,11 @@ in a Microsoft 365 Developer tenant.
   system location — pointed to a likely permissions restriction on the default path
 - VM created successfully with Generation 2, vTPM enabled, connected to AutopilotSwitch
 - Windows 11 Enterprise (eval) installation in progress inside the VM
+- ### August 30, 2026 — Hardware Hash Capture
+- Installed Get-WindowsAutoPilotInfo script via PowerShell
+- Hit a PSSecurityException (UnauthorizedAccess) — script execution disabled by default policy
+- Resolved with Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+- Successfully generated AutopilotHash.csv containing device serial number and hardware hash
 
 ## Status
 🚧 In progress
