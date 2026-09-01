@@ -37,6 +37,14 @@ in a Microsoft 365 Developer tenant.
 - Hit a PSSecurityException (UnauthorizedAccess) — script execution disabled by default policy
 - Resolved with Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 - Successfully generated AutopilotHash.csv containing device serial number and hardware hash
+- ### September 1, 2026 — Hash File Transfer
+- Discovered two duplicate "AutopilotLab" VMs existed (one broken/empty from an earlier
+  failed attempt, one with the actual Windows install)
+- Verified which was which using Hyper-V's disk Inspect tool (checked used disk space:
+  36MB vs 32.35GB)
+- Deleted the broken VM to avoid confusion going forward
+- Successfully copied AutopilotHash.csv from the VM to host machine using Hyper-V
+  Enhanced Session Mode clipboard sharing
 
 ## Status
 🚧 In progress
