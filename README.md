@@ -45,6 +45,13 @@ in a Microsoft 365 Developer tenant.
 - Deleted the broken VM to avoid confusion going forward
 - Successfully copied AutopilotHash.csv from the VM to host machine using Hyper-V
   Enhanced Session Mode clipboard sharing
+  ### September 1, 2026 — Tenant Access Setup
+- Attempted Microsoft 365 Developer Program (free sandbox, no card required) — repeatedly
+  denied eligibility despite multiple account attempts
+- Explored Microsoft 365 E3 trial and Azure free tier as alternatives — both require
+  card verification for identity purposes (standard practice, no charge during trial)
+- Decision: pause to weigh card-verification trial vs. retrying Developer Program later,
+  before provisioning the tenant that will host Intune/Entra ID for this lab
 
 ## Status
 🚧 In progress
