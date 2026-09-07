@@ -52,6 +52,15 @@ in a Microsoft 365 Developer tenant.
   card verification for identity purposes (standard practice, no charge during trial)
 - Decision: pause to weigh card-verification trial vs. retrying Developer Program later,
   before provisioning the tenant that will host Intune/Entra ID for this lab
+  ### September 7, 2026 — Tenant Licensing Troubleshooting
+- Hit "Request not applicable to target tenant" (BadRequest, 400) when importing Autopilot
+  hash — traced to missing Intune license on admin account
+- Discovered M365 E3 trial from public signup page never fully attached to tenant;
+  re-initiated trial directly from within the admin center (Billing > Marketplace) instead
+- Hit a second error: "proxyAddresses already exists" when assigning license via Users panel
+  — worked around by assigning the license through Billing > Licenses instead
+- License confirmed active and assigned; waiting for propagation before retrying
+  Autopilot import
 
 ## Status
 🚧 In progress
