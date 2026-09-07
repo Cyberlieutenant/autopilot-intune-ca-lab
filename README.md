@@ -18,8 +18,9 @@ in a Microsoft 365 tenant.
 - Hyper-V virtualization (Generation 2, vTPM configuration)
 - Microsoft Intune device enrollment and management
 - Microsoft 365 / Entra ID tenant administration and licensing
+- Entra ID security group-based policy/profile assignment
 - PowerShell scripting and execution policy management
-- Systematic troubleshooting using Event Viewer and diagnostic tools
+- Systematic troubleshooting using Event Viewer, Sysprep logs, and diagnostic tools
 - Enterprise identity and licensing architecture (M365 admin center, Entra ID, Intune relationships)
 
 ## 🛠️ Notable Troubleshooting
@@ -31,6 +32,8 @@ in a Microsoft 365 tenant.
 | Duplicate VM confusion | Earlier failed attempt left an empty leftover VM | Verified via disk Inspect (used space), deleted the empty one |
 | Autopilot import failed (BadRequest 400) | Admin account had no Intune license assigned | Diagnosed via Entra/Billing, assigned license directly |
 | proxyAddresses conflict on license save | UI bug in newer M365 admin center | Assigned license via Billing > Licenses instead of Users panel |
+| Deployment profile wouldn't assign to device | Profiles assign to Entra ID groups, not individual devices | Created a security group, added the device, assigned profile to the group |
+| Sysprep validation failure | Under investigation via setupact.log | In progress |
 
 ## 📋 Documentation Approach
 Each stage of this lab documents:
@@ -93,6 +96,24 @@ Each stage of this lab documents:
   — worked around by assigning the license through Billing > Licenses instead
 - License confirmed active and assigned; waiting for propagation before retrying
   Autopilot import
+
+### September 7, 2026 — Autopilot Device Import Success
+- Successfully imported AutopilotHash.csv into Intune (Devices > Windows > Windows
+  enrollment > Devices)
+- Device now shows in the Windows Autopilot devices list with serial number confirmed
+- Next: create a deployment profile and assign it to the device, then reset the VM to
+  OOBE to test the full Autopilot provisioning experience end-to-end
+
+### September 7, 2026 — Deployment Profile Assignment & OOBE Testing
+- Created a Windows Autopilot deployment profile (user-driven, Entra joined, OOBE
+  privacy/EULA screens hidden)
+- Discovered deployment profiles are assigned via Entra ID security groups, not
+  directly to individual devices from the device list
+- Created an Entra ID security group, added the registered device, and assigned the
+  deployment profile to that group via the profile's Properties > Assignments section
+- Attempted to reset the VM to OOBE using Sysprep to test the full Autopilot experience
+- Hit "Sysprep was unable to validate your Windows installation" — investigating via
+  setupact.log to identify the root cause before retrying
 
 ## Status
 🚧 In progress
