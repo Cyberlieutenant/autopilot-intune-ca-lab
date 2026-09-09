@@ -73,6 +73,8 @@ in a Microsoft 365 tenant.
 | Sysprep failed again (reserved storage) | Pending Windows Updates were using reserved storage | Installed pending updates, ran `DISM /Online /Cleanup-Image /StartComponentCleanup` |
 | Device not appearing in Intune after OOBE | Entra ID MDM user scope was set to "None" during original enrollment | Changed scope to "All"; scope changes don't retroactively apply, so re-ran full Sysprep/OOBE cycle with correct scope already in place |
 
+> 💡 **Biggest lesson:** Configuration changes in Entra ID/Intune don't always apply retroactively to already-provisioned devices — a fresh OOBE cycle is often the more reliable fix than patching after the fact.
+
 ## 📋 Documentation Approach
 Each stage of this lab documents:
 - What I configured and why
