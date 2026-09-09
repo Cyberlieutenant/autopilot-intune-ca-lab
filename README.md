@@ -160,6 +160,21 @@ Each stage of this lab documents:
 - Device still not yet visible in Intune's device list — likely a backend propagation
   delay following the scope change; core Autopilot/OOBE flow already proven successful,
   Intune dashboard sync to be re-verified next session
+  ### September 9, 2026 — Full Enrollment Verified (Project Complete)
+- Confirmed EnterpriseMgmt scheduled task folder did not exist on the device — meaning
+  MDM enrollment had never actually been attempted, since the original OOBE occurred
+  while the tenant's MDM scope was still "None"
+- Key learning: changing MDM user scope after a device is already Entra-joined does not
+  reliably trigger retroactive enrollment — a fresh OOBE cycle with the correct scope
+  already in place is the reliable fix
+- Re-ran Sysprep (/oobe /generalize /reboot) — completed cleanly this time with no
+  BitLocker or reserved storage errors, confirming those were fully resolved
+- Went through OOBE again: work account sign-in, Enrollment Status Page completed
+- Verified EnterpriseMgmt scheduled task now exists on the device
+- Confirmed device now shows in Intune > Devices > All devices as enrolled
+- Full pipeline verified end-to-end: hardware hash → Autopilot registration →
+  deployment profile → Entra ID join → MDM auto-enrollment → Intune management,
+  fully automated with zero manual configuration on the device itself
 
 ## Status
-✅ Core Autopilot provisioning flow verified end-to-end. 🔄 Confirming Intune enrollment sync.
+✅ Complete — zero-touch provisioning fully verified end-to-end, device confirmed enrolled and managed in Intune.
