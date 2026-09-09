@@ -1,17 +1,25 @@
-# Zero-Touch Windows Provisioning Lab
-Autopilot + Intune + Conditional Access
+# 🚀 Zero-Touch Windows Provisioning Lab
+### Windows Autopilot · Microsoft Intune · Conditional Access
 
-## Goal
+![Autopilot](https://img.shields.io/badge/Windows%20Autopilot-0078D4?style=for-the-badge&logo=windows&logoColor=white)
+![Intune](https://img.shields.io/badge/Microsoft%20Intune-0078D4?style=for-the-badge&logo=microsoft&logoColor=white)
+![Entra ID](https://img.shields.io/badge/Entra%20ID-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white)
+![PowerShell](https://img.shields.io/badge/PowerShell-5391FE?style=for-the-badge&logo=powershell&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Complete-brightgreen?style=for-the-badge)
+
+## 🎯 Goal
 Building an end-to-end enterprise device provisioning and access control lab —
 zero-touch deployment through Windows Autopilot, device compliance and app
 deployment via Intune, and access enforcement through Conditional Access —
 in a Microsoft 365 tenant.
 
-## Environment
-- Microsoft 365 E3 (Trial) tenant
-- Windows 11 Pro host
-- Hyper-V, Generation 2 VM with vTPM enabled
-- Windows 11 Enterprise (evaluation) as the target OS
+## 🧱 Environment
+| Component | Details |
+|---|---|
+| Tenant | Microsoft 365 E3 (Trial) |
+| Host | Windows 11 Pro |
+| Virtualization | Hyper-V, Generation 2 VM with vTPM enabled |
+| Target OS | Windows 11 Enterprise (evaluation) |
 
 ## 🔑 Skills Demonstrated
 - Windows Autopilot deployment and hardware hash registration
@@ -26,6 +34,29 @@ in a Microsoft 365 tenant.
 - Systematic troubleshooting using Event Viewer, Sysprep logs, dsregcmd, and diagnostic tools
 - Enterprise identity and licensing architecture (M365 admin center, Entra ID, Intune relationships)
 
+## 📦 What This Lab Covers
+
+### 1. VM & Environment Setup
+*Status: ✅ Complete*
+- Hyper-V Generation 2 VM with vTPM enabled
+- Windows 11 Enterprise (evaluation) installed
+
+### 2. Hardware Hash & Autopilot Registration
+*Status: ✅ Complete*
+- Captured hardware hash via Get-WindowsAutoPilotInfo
+- Imported into Intune, registered with Windows Autopilot
+
+### 3. Deployment Profile & Assignment
+*Status: ✅ Complete*
+- User-driven, Entra-joined deployment profile
+- Assigned via Entra ID security group
+
+### 4. Zero-Touch OOBE & Intune Enrollment
+*Status: ✅ Complete*
+- Full OOBE flow completed with work account sign-in
+- Enrollment Status Page completed successfully
+- Device confirmed enrolled and managed in Intune
+
 ## 🛠️ Notable Troubleshooting
 
 | Issue | Root Cause | Resolution |
@@ -38,7 +69,7 @@ in a Microsoft 365 tenant.
 | Deployment profile wouldn't assign to device | Profiles assign to Entra ID groups, not individual devices | Created a security group, added the device, assigned profile to the group |
 | Sysprep failed (BitLocker) | GUI showed BitLocker off, but drive was still "Used Space Only Encrypted" | Verified true state via `manage-bde -status`, fully decrypted via `manage-bde -off C:` |
 | Sysprep failed again (reserved storage) | Pending Windows Updates were using reserved storage | Installed pending updates, ran `DISM /Online /Cleanup-Image /StartComponentCleanup` |
-| Device not appearing in Intune after OOBE | Entra ID MDM user scope was set to "None" | Changed scope to "All", forced fresh sign-in to refresh enrollment token |
+| Device not appearing in Intune after OOBE | Entra ID MDM user scope was set to "None" during original enrollment | Changed scope to "All"; scope changes don't retroactively apply, so re-ran full Sysprep/OOBE cycle with correct scope already in place |
 
 ## 📋 Documentation Approach
 Each stage of this lab documents:
@@ -46,7 +77,7 @@ Each stage of this lab documents:
 - What errors I hit, and how I diagnosed them — not just the fix
 - What I'd do differently next time
 
-## Progress Log
+## 📅 Progress Log
 
 ### August 30, 2026 — Environment Setup
 - Confirmed Windows 11 Pro edition, enabled Hyper-V via Windows Features
@@ -133,7 +164,7 @@ Each stage of this lab documents:
 - Sysprep now proceeding past the cleanup phase — awaiting reboot to test the full
   Autopilot OOBE experience
 
-### September 8, 2026 — Zero-Touch Provisioning Success (Core Objective Complete)
+### September 8, 2026 — Zero-Touch Provisioning Success
 - Sysprep completed successfully after resolving BitLocker and reserved storage blockers
 - VM rebooted into a genuine OOBE state, presenting a work/school account sign-in
   instead of local account setup — confirming Autopilot recognized the registered
@@ -145,30 +176,21 @@ Each stage of this lab documents:
   automated with no manual domain join or local account setup
 
 ### September 8, 2026 — MDM Enrollment Verification
-- Device completed Autopilot OOBE successfully (work account sign-in, Enrollment Status
-  Page ran through to completion) but did not appear in Intune > Devices > All devices
-- Confirmed device WAS Entra ID joined (visible in Entra ID > Devices) but Intune
-  enrollment specifically hadn't triggered
-- Root cause: Entra ID's "MDM user scope" (Mobility (MDM and MAM) settings) was set to
-  "None" — meaning Entra-joined devices were never being handed off to Intune for
-  management
-- Changed MDM user scope to "All"
-- Verified via `dsregcmd /status`: MDM Url was initially blank even after manual
-  enrollment attempts (deviceenroller.exe /c /AutoEnrollMDM)
-- Forced a full sign-out/sign-in to refresh the authentication token — MDM Url then
-  populated, confirming the device found its enrollment endpoint
-- Device still not yet visible in Intune's device list — likely a backend propagation
-  delay following the scope change; core Autopilot/OOBE flow already proven successful,
-  Intune dashboard sync to be re-verified next session
-  ### September 9, 2026 — Full Enrollment Verified (Project Complete)
-- Confirmed EnterpriseMgmt scheduled task folder did not exist on the device — meaning
-  MDM enrollment had never actually been attempted, since the original OOBE occurred
-  while the tenant's MDM scope was still "None"
+- Device completed Autopilot OOBE successfully but did not appear in
+  Intune > Devices > All devices
+- Confirmed device WAS Entra ID joined but Intune enrollment specifically hadn't triggered
+- Root cause: Entra ID's MDM user scope was set to "None" during the original enrollment,
+  meaning Entra-joined devices were never being handed off to Intune for management
+- Changed MDM user scope to "All"; confirmed via `dsregcmd /status` and Event Viewer
+  diagnostics that enrollment still hadn't triggered on the already-joined device
+
+### September 9, 2026 — Full Enrollment Verified (Project Complete)
+- Confirmed the EnterpriseMgmt scheduled task did not exist on the device — meaning
+  MDM enrollment had never actually been attempted
 - Key learning: changing MDM user scope after a device is already Entra-joined does not
   reliably trigger retroactive enrollment — a fresh OOBE cycle with the correct scope
   already in place is the reliable fix
-- Re-ran Sysprep (/oobe /generalize /reboot) — completed cleanly this time with no
-  BitLocker or reserved storage errors, confirming those were fully resolved
+- Re-ran Sysprep — completed cleanly with no BitLocker or reserved storage errors
 - Went through OOBE again: work account sign-in, Enrollment Status Page completed
 - Verified EnterpriseMgmt scheduled task now exists on the device
 - Confirmed device now shows in Intune > Devices > All devices as enrolled
@@ -176,5 +198,5 @@ Each stage of this lab documents:
   deployment profile → Entra ID join → MDM auto-enrollment → Intune management,
   fully automated with zero manual configuration on the device itself
 
-## Status
-✅ Complete — zero-touch provisioning fully verified end-to-end, device confirmed enrolled and managed in Intune.
+## 🚧 Status
+✅ **Complete** — zero-touch provisioning fully verified end-to-end, device confirmed enrolled and managed in Intune.
