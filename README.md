@@ -1,6 +1,8 @@
 # 🚀 Zero-Touch Windows Provisioning Lab
 ### Windows Autopilot · Microsoft Intune · Conditional Access
 
+> One-line takeaway: Built and troubleshot a full zero-touch Windows deployment pipeline from scratch, including real-world licensing and enrollment issues most tutorials skip.
+
 ![Autopilot](https://img.shields.io/badge/Windows%20Autopilot-0078D4?style=for-the-badge&logo=windows&logoColor=white)
 ![Intune](https://img.shields.io/badge/Microsoft%20Intune-0078D4?style=for-the-badge&logo=microsoft&logoColor=white)
 ![Entra ID](https://img.shields.io/badge/Entra%20ID-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white)
